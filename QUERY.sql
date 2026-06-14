@@ -71,10 +71,17 @@ WHERE tournament_category = 'Champions League' AND match_status = 'Available'
 
 -- Query 2: Search for all users whose full names start with 'Tanvir' or contain the phrase 'Haque' (case-insensitive).
 SELECT user_id, full_name, email FROM Users
-WHERE full_name ILIKE 'Tanvir%' OR full_name ILIKE '%Haque%'
+WHERE full_name ILIKE 'Tanvir%'
+   OR full_name ILIKE '%Haque%'
 
 
 
 -- Query 3: Retrieve all booking records where the payment status is missing (NULL), replacing the empty result with 'Action Required'.
 SELECT booking_id, user_id, match_id, COALESCE(payment_status, 'Action Required') AS systematic_status FROM Bookings 
 WHERE payment_status IS NULL
+
+
+-- Query 4: Retrieve match booking details along with the User's full name and the scheduled Match fixture teams.
+SELECT booking_id, full_name, fixture, total_cost FROM Bookings AS b
+INNER JOIN Users AS u ON u.user_id = b.user_id
+INNER JOIN Matches AS m ON  m.match_id = b.match_id
