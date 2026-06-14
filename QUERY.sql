@@ -1,8 +1,8 @@
 -- 1. CREATE USERS TABLE
 CREATE TABLE Users (
     user_id serial PRIMARY KEY,
-    full_name VARCHAR(200) UNIQUE,
-    email VARCHAR(255),
+    full_name VARCHAR(200),
+    email VARCHAR(255) UNIQUE,
     role VARCHAR(100) CHECK(role IN('Ticket Manager', 'Football Fan')),
     phone_number VARCHAR(50)
 );
@@ -30,7 +30,7 @@ CREATE TABLE Matches (
 
 -- DATA SEEDING: INSERT SAMPLE DATA INTO MATCHES
 INSERT INTO Matches (match_id, fixture, tournament_category, base_ticket_price, match_status)
-VALUES(10, 'Real Madrid vs Barcelona', 'Champions League', 20, 'Available'),
+VALUES(101, 'Real Madrid vs Barcelona', 'Champions League', 150, 'Available'),
 (102, 'Man City vs Liverpool', 'Premier League', 120.00, 'Selling Fast'),
 (103, 'Bayern Munich vs PSG', 'Champions League', 130.00, 'Available'),
 (104, 'AC Milan vs Inter Milan', 'Serie A', 90.00, 'Sold Out'),
@@ -101,5 +101,5 @@ WHERE total_cost > (SELECT AVG(total_cost) FROM Bookings)
 
 
 -- Query 7: Retrieve the top 2 most expensive matches sorted by base ticket price, skipping the absolute highest premium match.
-SELECT * FROM Matches
+SELECT match_id, fixture, base_ticket_price FROM Matches
 ORDER BY base_ticket_price DESC OFFSET 1 LIMIT 2
